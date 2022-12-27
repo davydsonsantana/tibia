@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tibia.MongoDB;
 
 namespace Tibia.Domain.Comunity
 {
-    public class World
+    public class World : Entity
     {
         public string Name { get; private set; }
         public ELocation Location { get; private set; }
