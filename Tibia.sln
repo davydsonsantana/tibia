@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tibia.Infrastructure", "Tib
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tibia.console", "tibia.console\tibia.console.csproj", "{5B6CB241-AAF7-4961-B93C-A4EDC6FF6985}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tibia.MongoDB", "Tibia.MongoDB\Tibia.MongoDB.csproj", "{46C1BB24-0A30-4598-8576-A597AFFFC16E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tibia.MongoDB", "Tibia.MongoDB\Tibia.MongoDB.csproj", "{46C1BB24-0A30-4598-8576-A597AFFFC16E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{42B8A996-6F5E-428A-B367-F2768F30BBAD}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

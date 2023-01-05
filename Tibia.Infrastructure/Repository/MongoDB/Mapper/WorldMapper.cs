@@ -11,17 +11,15 @@ using Tibia.Domain.Comunity;
 
 namespace Tibia.Infrastructure.Repository.MongoDB.Mapping
 {
-    public class WorldMapping
+    public class WorldMapper
     {
         public void Map() {
+
             BsonClassMap.RegisterClassMap<World>(cm =>
             {
                 cm.MapIdMember(c => c.Id)
                    .SetIdGenerator(new StringObjectIdGenerator())
                    .SetSerializer(new StringSerializer(BsonType.ObjectId));
-
-                cm.MapMember(c => c.AdditionalInfo);
-                cm.
 
                 cm.SetIgnoreExtraElements(true);
             });

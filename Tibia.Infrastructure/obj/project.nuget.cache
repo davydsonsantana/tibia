@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "FWPCbrgtgGPj16oyWYV+Gg55BJSI1LjJlyyacqk1pg/tQgD9PWLzNmIOO+kKZYWB3CeMaETw0JYWARAjIvtMsw==",
+  "dgSpecHash": "X2dnP8ehq3MiK1T1J71Nza20aF9SF0gSS0N4wD6K63J+gH5h3YdK+4Gl96hdrNiy4nRwfCfeUGqy5QXmZX2fQQ==",
   "success": true,
   "projectFilePath": "C:\\Workspace\\davys\\tibia\\Tibia.Infrastructure\\Tibia.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\davydson.ana\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
+    "C:\\Users\\davydson.ana\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0\\microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\davydson.ana\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\2.0.0\\microsoft.extensions.logging.abstractions.2.0.0.nupkg.sha512",
+    "C:\\Users\\davydson.ana\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
     "C:\\Users\\davydson.ana\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
     "C:\\Users\\davydson.ana\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\davydson.ana\\.nuget\\packages\\mongodb.bson\\2.18.0\\mongodb.bson.2.18.0.nupkg.sha512",
