@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tibia.Infrastructure.Worker;
+using Tibia.Infrastructure.Worker.Interface;
 
-namespace AuctionCrowler.Controllers
-{
+namespace AuctionCrowler.Controllers {
     [ApiController]
     [Route("[controller]")]
     public class WorldController : ControllerBase {

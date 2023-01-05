@@ -1,9 +1,10 @@
-using Microsoft.Extensions.Configuration;   
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using Tibia.Domain.Adapters;
 using Tibia.Infrastructure.Adapters;
 using Tibia.Infrastructure.Repository.MongoDB;
 using Tibia.Infrastructure.Worker;
+using Tibia.Infrastructure.Worker.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 

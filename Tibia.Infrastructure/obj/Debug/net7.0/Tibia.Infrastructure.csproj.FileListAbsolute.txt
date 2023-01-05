@@ -16,3 +16,5 @@ C:\Workspace\davys\tibia\Tibia.Infrastructure\obj\Debug\net7.0\Tibia.Infrastruct
 C:\Workspace\davys\tibia\Tibia.Infrastructure\obj\Debug\net7.0\refint\Tibia.Infrastructure.dll
 C:\Workspace\davys\tibia\Tibia.Infrastructure\obj\Debug\net7.0\Tibia.Infrastructure.pdb
 C:\Workspace\davys\tibia\Tibia.Infrastructure\obj\Debug\net7.0\ref\Tibia.Infrastructure.dll
+C:\Workspace\davys\tibia\Tibia.Infrastructure\bin\Debug\net7.0\Tibia.MongoDB.dll
+C:\Workspace\davys\tibia\Tibia.Infrastructure\bin\Debug\net7.0\Tibia.MongoDB.pdb

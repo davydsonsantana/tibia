@@ -10,14 +10,14 @@
         "projectUniqueName": "C:\\Workspace\\davys\\tibia\\Tibia.Domain\\Tibia.Domain.csproj",
         "projectName": "Tibia.Domain",
         "projectPath": "C:\\Workspace\\davys\\tibia\\Tibia.Domain\\Tibia.Domain.csproj",
-        "packagesPath": "C:\\Users\\davydson.ana\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\davys\\.nuget\\packages\\",
         "outputPath": "C:\\Workspace\\davys\\tibia\\Tibia.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\davydson.ana\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\davys\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,8 +26,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://stonepagamentos.pkgs.visualstudio.com/_packaging/FinancialProductsArtifacts/nuget/v3/index.json": {}
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
@@ -74,14 +74,14 @@
         "projectUniqueName": "C:\\Workspace\\davys\\tibia\\Tibia.MongoDB\\Tibia.MongoDB.csproj",
         "projectName": "Tibia.MongoDB",
         "projectPath": "C:\\Workspace\\davys\\tibia\\Tibia.MongoDB\\Tibia.MongoDB.csproj",
-        "packagesPath": "C:\\Users\\davydson.ana\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\davys\\.nuget\\packages\\",
         "outputPath": "C:\\Workspace\\davys\\tibia\\Tibia.MongoDB\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\davydson.ana\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\davys\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -90,8 +90,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://stonepagamentos.pkgs.visualstudio.com/_packaging/FinancialProductsArtifacts/nuget/v3/index.json": {}
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tibia.Domain.Adapters;
+using Tibia.Infrastructure.Worker.Interface;
 
 namespace Tibia.Infrastructure.Worker {
     public class WorldCrowler : IWorldCrowler {

@@ -10,3 +10,6 @@ C:\Workspace\davys\tibia\Tibia.Domain\obj\Debug\net7.0\Tibia.Domain.dll
 C:\Workspace\davys\tibia\Tibia.Domain\obj\Debug\net7.0\refint\Tibia.Domain.dll
 C:\Workspace\davys\tibia\Tibia.Domain\obj\Debug\net7.0\Tibia.Domain.pdb
 C:\Workspace\davys\tibia\Tibia.Domain\obj\Debug\net7.0\ref\Tibia.Domain.dll
+C:\Workspace\davys\tibia\Tibia.Domain\bin\Debug\net7.0\Tibia.MongoDB.dll
+C:\Workspace\davys\tibia\Tibia.Domain\bin\Debug\net7.0\Tibia.MongoDB.pdb
+C:\Workspace\davys\tibia\Tibia.Domain\obj\Debug\net7.0\Tibia.Domain.csproj.CopyComplete

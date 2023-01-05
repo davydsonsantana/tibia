@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tibia.Infrastructure.Repository.MongoDB
-{
-    internal class BaseRepository
-    {
+namespace Tibia.MongoDB {
+    internal class BaseRepository {
     }
 }
