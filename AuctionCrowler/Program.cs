@@ -15,8 +15,7 @@ builder.Services.AddSingleton<IWorldAdapter, WorldAdapter>();
 builder.Services.AddSingleton<IWorldCrowler, WorldCrowler>();
 
 // Mongo DB
-builder.Services.AddSingleton<IMongoClient, MongoClient>(sp => new MongoClient(builder.Configuration.GetConnectionString("MongoDb")));
-builder.Services.AddSingleton<IUnitOfWork, UnitOfWork>();
+builder.Services.ConfigureMongoDB(builder.Configuration);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

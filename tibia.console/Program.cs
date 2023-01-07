@@ -1,36 +1,39 @@
-﻿// See https://aka.ms/new-console-template for more information
-using MongoDB.Driver;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using tibia.console.Crowler.Adapters;
-using tibia.console.Crowler.Adapters.Interface;
-using tibia.console.Tibia;
-using tibia.console.Tibia.Comunity;
+﻿using DnsClient.Internal;
+using Microsoft.Extensions.Logging;
+using Tibia.Domain.Comunity;
+using Tibia.Infrastructure.Repository.MongoDB;
+using Tibia.MongoDB;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-IWorldAdapter worldAdapter = new WorldAdapter();
-var worldList = worldAdapter.List();
+var builder = WebApplication.CreateBuilder(args);
 
-var dbClient = new MongoClient("mongodb://root:senha123@localhost:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false");
-world
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole().AddDebug();
 
+using var loggerFactory = LoggerFactory.Create(loggingBuilder => loggingBuilder
+    .SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace)
+    .AddConsole());
 
-Console.ReadKey();
+ILogger logger = loggerFactory.CreateLogger<Program>();
+logger.LogInformation("Example log message");
 
-var driver = new ChromeDriver();
-driver.Navigate().GoToUrl("https://www.tibia.com/charactertrade/?subtopic=currentcharactertrades");
+// Mongo DB
+builder.Services.ConfigureMongoDB(builder.Configuration, logger);
 
-var worlds = new List<World>();
-SelectElement selectFilterWorld = new SelectElement(driver.FindElement(By.Name("filter_world")));
-for (int i = 1; i < selectFilterWorld.Options.Count; i++) {
-   // worlds.Add(new World(selectFilterWorld.Options[i].Text));
-}
+var app = builder.Build();
 
-selectFilterWorld.SelectByValue("Dibra");
+var context = app.Services.GetService<IMongoContext>();
+var DbSet = context.GetCollection<World>(typeof(World).Name.ToLower());
 
-var applyBtn = driver.FindElement(By.XPath("//*[@id=\"CharacterAuctionSearchBlock\"]/div[1]/div/div/input"));
-applyBtn.Click();
+var world = new World("Dibra", ELocation.SouthAmerica, EPvpType.OpenPVP, EBattleEye.Protected);
 
 
+context.AddCommand(() => DbSet.InsertOneAsync(world));
+var count = await context.SaveChanges();
 
-Console.ReadKey();
+logger.LogDebug($"Operation count: {count}");
+
+context.Dispose();
+
+app.Run();
+

@@ -5,30 +5,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tibia.MongoDB;
 
-namespace Tibia.Infrastructure.Repository.MongoDB
-{
-    public class MongoContext
-    {
+namespace Tibia.Infrastructure.Repository.MongoDB {
+    public class MongoContext : IMongoContext {
         private IMongoDatabase Database { get; set; }
         public IClientSessionHandle Session { get; set; }
-        public MongoClient MongoClient { get; set; }
+        public IMongoClient MongoClient { get; set; }
         private readonly List<Func<Task>> _commands;
         private readonly IConfiguration _configuration;
 
-        public MongoContext(IConfiguration configuration)
-        {
+        public MongoContext(IMongoClient mongoCliente, IConfiguration configuration) {
             _configuration = configuration;
+            MongoClient = mongoCliente;
+            Database = MongoClient.GetDatabase(_configuration["MongoDB:DatabaseName"]);
 
             // Every command will be stored and it'll be processed at SaveChanges
             _commands = new List<Func<Task>>();
         }
-        public async Task<int> SaveChanges()
-        {
-            ConfigureMongo();
-
-            using (Session = await MongoClient.StartSessionAsync())
-            {
+        public async Task<int> SaveChanges() {
+            using (Session = await MongoClient.StartSessionAsync()) {
                 Session.StartTransaction();
 
                 var commandTasks = _commands.Select(c => c());
@@ -41,34 +37,16 @@ namespace Tibia.Infrastructure.Repository.MongoDB
             return _commands.Count;
         }
 
-        private void ConfigureMongo()
-        {
-            if (MongoClient != null)
-            {
-                return;
-            }
-
-            // Configure mongo (You can inject the config, just to simplify)
-            MongoClient = new MongoClient(_configuration["MongoDB:ConnectionString"]);
-
-            Database = MongoClient.GetDatabase(_configuration["MongoDB:DatabaseName"]);
-        }
-
-        public IMongoCollection<T> GetCollection<T>(string name)
-        {
-            ConfigureMongo();
-
+        public IMongoCollection<T> GetCollection<T>(string name) {
             return Database.GetCollection<T>(name);
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             Session?.Dispose();
             GC.SuppressFinalize(this);
         }
 
-        public void AddCommand(Func<Task> func)
-        {
+        public void AddCommand(Func<Task> func) {
             _commands.Add(func);
         }
     }
