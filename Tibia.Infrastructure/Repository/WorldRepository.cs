@@ -5,17 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tibia.Domain.Comunity;
+using Tibia.Domain.Repository;
+using Tibia.MongoDB;
 
 namespace Tibia.Infrastructure.Repository
 {
-    public  class WorldRepository
-    {
-        private readonly IMongoCollection<World> _world;
-
-        public WorldRepository(IMongoClient client)
-        {
-            var database = client.GetDatabase("tibia");
-            _world = database.GetCollection<World>(nameof(World));
-        }
+    public class WorldRepository : BaseRepository<World>, IWorldRepository {        
+        public WorldRepository(IMongoContext context) : base(context) {
+        }  
     }
 }

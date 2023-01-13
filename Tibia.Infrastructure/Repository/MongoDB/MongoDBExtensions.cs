@@ -5,6 +5,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Events;
+using Tibia.Domain.Repository;
 using Tibia.Infrastructure.Repository.MongoDB.Mapper;
 using Tibia.MongoDB;
 
@@ -19,9 +20,10 @@ namespace Tibia.Infrastructure.Repository.MongoDB {
                     logger.LogTrace($"{e.CommandName} - {e.Command.ToJson()}");
                 });
             };
+            
             services.AddSingleton<IMongoClient, MongoClient>(sp => new MongoClient(mongoClientSettings));
-            services.AddSingleton<IMongoContext, MongoContext>();
-
+                                    
+            ConfigureDependencyInjection(services);
             ConfigureMappers();
 
             //BsonDefaults.GuidRepresentation = GuidRepresentation.CSharpLegacy;
@@ -34,6 +36,13 @@ namespace Tibia.Infrastructure.Repository.MongoDB {
                     new IgnoreIfDefaultConvention(true)
                 };
             ConventionRegistry.Register("My Solution Conventions", pack, t => true);
+        }
+
+        private static void ConfigureDependencyInjection(IServiceCollection services) {                        
+            services.AddSingleton<IMongoContext, MongoContext>();
+            
+            // Repository
+            services.AddSingleton<IWorldRepository, WorldRepository>();
         }
 
         private static void ConfigureMappers() {

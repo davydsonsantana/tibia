@@ -15,7 +15,11 @@ namespace Tibia.MongoDB {
             Context = context;
             DbSet = Context.GetCollection<TEntity>(typeof(TEntity).Name);
         }
-        
+
+        public virtual void InsertOne(TEntity obj) {
+            Context.AddCommand(() => DbSet.InsertOneAsync(obj));
+        }
+
         public virtual async Task<TEntity> GetById(Guid id) {
             var data = await DbSet.FindAsync(Builders<TEntity>.Filter.Eq("_id", id));
             return data.SingleOrDefault();

@@ -1,6 +1,7 @@
 ﻿using DnsClient.Internal;
 using Microsoft.Extensions.Logging;
 using Tibia.Domain.Comunity;
+using Tibia.Domain.Repository;
 using Tibia.Infrastructure.Repository.MongoDB;
 using Tibia.MongoDB;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
@@ -27,11 +28,9 @@ var DbSet = context.GetCollection<World>(typeof(World).Name.ToLower());
 
 var world = new World("Dibra", ELocation.SouthAmerica, EPvpType.OpenPVP, EBattleEye.Protected);
 
+var worldRepository = app.Services.GetService<IWorldRepository>();
+worldRepository.InsertOne(world);
 
-context.AddCommand(() => DbSet.InsertOneAsync(world));
-var count = await context.SaveChanges();
-
-logger.LogDebug($"Operation count: {count}");
 
 context.Dispose();
 
