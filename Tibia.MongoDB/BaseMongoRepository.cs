@@ -13,7 +13,7 @@ namespace Tibia.MongoDB {
 
         public BaseRepository(IMongoContext context) {
             Context = context;
-            DbSet = Context.GetCollection<TEntity>(typeof(TEntity).Name);
+            DbSet = Context.GetCollection<TEntity>(typeof(TEntity).Name.ToLower());
         }
 
         public virtual void InsertOne(TEntity obj) {

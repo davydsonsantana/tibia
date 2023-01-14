@@ -34,6 +34,7 @@ namespace Tibia.Infrastructure.Adapters {
                 var additionalInfo = tdCollection[5].Text;
 
                 var world = new World(worldName, location, pvpType, battleEye, additionalInfo);
+                worldList.Add(world);
             }
 
             return await Task.FromResult(worldList);

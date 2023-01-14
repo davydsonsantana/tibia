@@ -11,18 +11,20 @@ using Tibia.MongoDB;
 
 namespace Tibia.Infrastructure.Repository.MongoDB {
     public static class MongoDBExtensions {
-        public static void ConfigureMongoDB(this IServiceCollection services, IConfiguration configuration, ILogger logger) {
+        public static void ConfigureMongoDB(this IServiceCollection services, IConfiguration configuration) {
+
 
             var connectionString = configuration["MongoDB:ConnectionString"];
             var mongoClientSettings = MongoClientSettings.FromConnectionString(connectionString);
-            mongoClientSettings.ClusterConfigurator = cb => {
-                cb.Subscribe<CommandStartedEvent>(e => {
-                    logger.LogTrace($"{e.CommandName} - {e.Command.ToJson()}");
-                });
-            };
-            
+            /*
+                mongoClientSettings.ClusterConfigurator = cb => {
+                    cb.Subscribe<CommandStartedEvent>(e => {
+                        logger.LogTrace($"{e.CommandName} - {e.Command.ToJson()}");
+                    });
+                };
+            */
             services.AddSingleton<IMongoClient, MongoClient>(sp => new MongoClient(mongoClientSettings));
-                                    
+
             ConfigureDependencyInjection(services);
             ConfigureMappers();
 
@@ -38,9 +40,13 @@ namespace Tibia.Infrastructure.Repository.MongoDB {
             ConventionRegistry.Register("My Solution Conventions", pack, t => true);
         }
 
-        private static void ConfigureDependencyInjection(IServiceCollection services) {                        
+        private static void ConfigureDependencyInjection(IServiceCollection services) {
+            //Mongo Context
             services.AddSingleton<IMongoContext, MongoContext>();
-            
+
+            // Unity of Work
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+
             // Repository
             services.AddSingleton<IWorldRepository, WorldRepository>();
         }
