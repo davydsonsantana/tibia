@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuctionCrowler.Api", "AuctionCrowler.Api\AuctionCrowler.Api.csproj", "{0A9D52E9-D596-43F5-B4F8-827EBB55481E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionCrowler.Worker", "AuctionCrowler.Worker\AuctionCrowler.Worker.csproj", "{4FFAA89B-8CB7-44ED-8ADE-171F7B22A1FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{0A9D52E9-D596-43F5-B4F8-827EBB55481E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A9D52E9-D596-43F5-B4F8-827EBB55481E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A9D52E9-D596-43F5-B4F8-827EBB55481E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FFAA89B-8CB7-44ED-8ADE-171F7B22A1FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FFAA89B-8CB7-44ED-8ADE-171F7B22A1FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FFAA89B-8CB7-44ED-8ADE-171F7B22A1FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FFAA89B-8CB7-44ED-8ADE-171F7B22A1FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

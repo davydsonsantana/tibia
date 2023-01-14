@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Tibia.MongoDB {
     public interface IMongoRepository<TEntity> : IDisposable where TEntity : Entity {
-        void InsertOne(TEntity obj);
+        Task<IEnumerable<TEntity>> GetAll();
         Task<TEntity> GetById(Guid id);
+        void InsertOne(TEntity obj);
         void Remove(Guid id);
     }
 }

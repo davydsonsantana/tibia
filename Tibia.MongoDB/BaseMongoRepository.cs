@@ -25,6 +25,11 @@ namespace Tibia.MongoDB {
             return data.SingleOrDefault();
         }
 
+        public virtual async Task<IEnumerable<TEntity>> GetAll() {
+            var data = await DbSet.FindAsync(Builders<TEntity>.Filter.Empty);
+            return data.ToList();
+        }
+
         public virtual void Remove(Guid id) {
             Context.AddCommand(() => DbSet.DeleteOneAsync(Builders<TEntity>.Filter.Eq("_id", id)));
         }

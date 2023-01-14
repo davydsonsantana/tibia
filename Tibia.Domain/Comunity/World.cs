@@ -22,7 +22,6 @@ namespace Tibia.Domain.Comunity
             PvpType = pvpType;
             BattleEye = battleEye;
             AdditionalInfo = additionalInfo;
-            Console.WriteLine($"World: {Name}");
         }
     }
 }
