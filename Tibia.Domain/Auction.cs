@@ -7,7 +7,7 @@ using Tibia.Domain.Comunity;
 
 namespace Tibia.Domain
 {
-    internal class Auction
+    public class Auction
     {
         internal EAuctionType Type { get; private set; }
         internal IAuctionable Item { get; private set; }

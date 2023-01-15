@@ -1,10 +1,12 @@
 ﻿using Tibia.Domain.Adapters;
-using Tibia.Infrastructure.Adapters;
 using Tibia.Infrastructure.Worker.Interface;
 using Tibia.Infrastructure.Worker;
 using Tibia.Infrastructure.Repository.MongoDB;
+using Tibia.Infrastructure.Adapters.Worlds;
+using Tibia.Infrastructure.Adapters.CharAuctionSearchPage;
 
-namespace AuctionCrowler.Api {
+namespace AuctionCrowler.Api
+{
     public class Startup {
         public IConfiguration Configuration { get; set; }
         
@@ -16,9 +18,10 @@ namespace AuctionCrowler.Api {
             services.AddControllers();            
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-            
+
 
             // Dependency injection
+            services.AddSingleton<ICharAuctionSearchPageAdapter, CharAuctionSearchPageAdapter>();
             services.AddSingleton<IWorldAdapter, WorldAdapter>();
             services.AddSingleton<IWorldCrowler, WorldCrowler>();
 

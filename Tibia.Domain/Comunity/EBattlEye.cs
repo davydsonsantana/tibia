@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tibia.Domain.Comunity
 {
-    public enum EBattleEye
+    public enum EBattlEye
     {
         Unprotected = 0,
         ProtectedInicial = 1,

@@ -12,15 +12,15 @@ namespace Tibia.Domain.Comunity
         public string Name { get; private set; }
         public ELocation Location { get; private set; }
         public EPvpType PvpType { get; private set; }
-        public EBattleEye BattleEye { get; private set; }
+        public EBattlEye BattlEye { get; private set; }
         public string AdditionalInfo { get; private set; }
 
-        public World(string name, ELocation location, EPvpType pvpType, EBattleEye battleEye, string additionalInfo = "")
+        public World(string name, ELocation location, EPvpType pvpType, EBattlEye battlEye, string additionalInfo = "")
         {
             Name = name;
             Location = location;
             PvpType = pvpType;
-            BattleEye = battleEye;
+            BattlEye = battlEye;
             AdditionalInfo = additionalInfo;
         }
     }

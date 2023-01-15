@@ -1,0 +1,127 @@
+﻿using Microsoft.Extensions.Logging;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Tibia.Domain;
+using Tibia.Domain.Adapters;
+using Tibia.Domain.Comunity;
+
+namespace Tibia.Infrastructure.Adapters.CharAuctionSearchPage {
+    public class CharAuctionSearchPageAdapter : ICharAuctionSearchPageAdapter {
+
+        private readonly ILogger _logger;
+        private ChromeDriver webDriver;
+        private string xpathTableTRAuctions = "//*[@id=\"currentcharactertrades\"]/div[5]/div/div/div[3]/table/tbody/tr/td/div[2]/table/tbody/tr";
+
+        public CharAuctionSearchPageAdapter(ILogger<CharAuctionSearchPageAdapter> logger) {
+            _logger = logger;
+            webDriver = new ChromeDriver();
+        }
+
+        public async Task<List<Auction>> List() {
+            var filter = new CharAuctionFilter();
+            var auctionList = new List<Auction>();
+
+            webDriver.Navigate().GoToUrl(filter.BuildURI());
+
+            var trAuctions = webDriver.FindElements(By.XPath(xpathTableTRAuctions)).ToList();
+            trAuctions.RemoveAt(0); // Remove table header - pagination   
+
+            for (int i = 0; i < 1/*trAuctions.Count - 1*/; i++) { // ignore footer -1
+                try {
+                    var name = GetName(trAuctions[i]);
+                    var charAuctionDetailPageLink = GetCharAuctionDetailPageLink(trAuctions[i]);
+                    var level = GetLevel(trAuctions[i]);
+                    var vocation = GetVocation(trAuctions[i]);
+                    var gender = GetGender(trAuctions[i]);
+                    var world = GetWorld(trAuctions[i]);
+
+                } catch (Exception ex) {
+                    _logger.LogError(ex.Message);
+                }
+
+            }
+
+            return await Task.FromResult(auctionList);
+        }
+
+        private string GetName(IWebElement element) {
+            try {
+                return element.FindElement(By.XPath(".//div[@class='AuctionCharacterName']/a")).Text;
+            } catch {
+                _logger.LogError("Can't locate 'Character Name' field at HTML");
+                throw;
+            }
+        }
+
+        private string GetCharAuctionDetailPageLink(IWebElement element) {
+            try {
+                return element.FindElement(By.XPath(".//div[@class='AuctionCharacterName']/a")).GetAttribute("href");
+            } catch {
+                _logger.LogError("Can't locate 'Character Auction Detail Page Link' on Name field at HTML");
+                throw;
+            }
+        }
+
+        private string GetLevel(IWebElement element) {
+            try {
+                var auctionHeader = element.FindElement(By.XPath(".//div[@class='AuctionHeader']")).Text;
+                return new Regex(@"(?<=Level: )\d*").Match(auctionHeader).Value;
+            } catch {
+                _logger.LogError("Can't locate 'Character Level' on AuctionHeader field at HTML");
+                throw;
+            }
+        }
+
+        private EAuctionVocation GetVocation(IWebElement element) {
+            try {
+                var auctionHeader = element.FindElement(By.XPath(".//div[@class='AuctionHeader']")).Text;
+                var vocationAsString = new Regex(@"(?<=Vocation: ).*?(?= [|])").Match(auctionHeader).Value;
+                return ParseVocation(vocationAsString);
+            } catch {
+                _logger.LogError("Can't locate 'Character Level' on AuctionHeader field at HTML");
+                throw;
+            }
+        }
+
+        private EAuctionVocation ParseVocation(string vocation) {
+            if (vocation.ToLower().Contains("sorcerer")) {
+                return EAuctionVocation.Sorcerer;
+            } else if (vocation.ToLower().Contains("druid")) {
+                return EAuctionVocation.Sorcerer;
+            } else if (vocation.ToLower().Contains("paladin")) {
+                return EAuctionVocation.Paladin;
+            } else if (vocation.ToLower().Contains("knight")) {
+                return EAuctionVocation.Knight;
+            } else {
+                throw new Exception($"Can't parse vocation {vocation}");
+            }
+        }
+
+        private string GetGender(IWebElement element) {
+            try {
+                var auctionHeader = element.FindElement(By.XPath(".//div[@class='AuctionHeader']")).Text;
+                return new Regex(@"(?<= | )(Male|Female)(?= [|] )", RegexOptions.IgnoreCase).Match(auctionHeader).Value;
+            } catch {
+                _logger.LogError("Can't locate 'Character Gender' on AuctionHeader field at HTML");
+                throw;
+            }
+        }
+
+        private EAuctionWorld GetWorld(IWebElement element) {
+            try {
+                var auctionHeader = element.FindElement(By.XPath(".//div[@class='AuctionHeader']")).Text;
+                var worldAsString = new Regex(@"(?<=World: ).*").Match(auctionHeader).Value;
+                return Enum.Parse<EAuctionWorld>(worldAsString);
+            } catch {
+                _logger.LogError("Can't locate 'Character Level' on AuctionHeader field at HTML");
+                throw;
+            }
+        }
+    }
+}

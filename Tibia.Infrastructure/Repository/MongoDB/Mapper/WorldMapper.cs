@@ -16,7 +16,7 @@ namespace Tibia.Infrastructure.Repository.MongoDB.Mapper {
                 map.MapMember(x => x.Name).SetIsRequired(true);
                 map.MapMember(x => x.Location).SetIsRequired(true);
                 map.MapMember(x => x.PvpType).SetIsRequired(true);
-                map.MapMember(x => x.BattleEye).SetIsRequired(true);
+                map.MapMember(x => x.BattlEye).SetIsRequired(true);
                 map.MapMember(x => x.AdditionalInfo).SetIsRequired(true);
 
                 map.SetIgnoreExtraElements(true);
