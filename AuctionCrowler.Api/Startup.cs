@@ -3,7 +3,7 @@ using Tibia.Infrastructure.Worker.Interface;
 using Tibia.Infrastructure.Worker;
 using Tibia.Infrastructure.Repository.MongoDB;
 using Tibia.Infrastructure.Adapters.Worlds;
-using Tibia.Infrastructure.Adapters.CharAuctionSearchPage;
+using Tibia.Infrastructure.Adapters.CharAuctions;
 
 namespace AuctionCrowler.Api
 {

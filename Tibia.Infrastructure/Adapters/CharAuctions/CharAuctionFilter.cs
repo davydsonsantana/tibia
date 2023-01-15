@@ -5,7 +5,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tibia.Infrastructure.Adapters.CharAuctionSearchPage {
+namespace Tibia.Infrastructure.Adapters.CharAuctions {
     public class CharAuctionFilter {
 
         private readonly string AuctionSearchPageURI = "https://www.tibia.com/charactertrade/?subtopic=currentcharactertrades";

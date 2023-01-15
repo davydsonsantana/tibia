@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tibia.Infrastructure.Adapters.CharAuctionSearchPage {
+namespace Tibia.Infrastructure.Adapters.CharAuctions {
     public enum EAuctionPvpTypes {
         ALL_PVP_TYPES = 9,
         OpenPvP = 0,

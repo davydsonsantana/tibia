@@ -1,7 +1,6 @@
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 using Tibia.Domain.Adapters;
-using Tibia.Infrastructure.Adapters.CharAuctionSearchPage;
 using Tibia.Infrastructure.Repository.MongoDB;
 using Tibia.Infrastructure.Worker.Interface;
 
@@ -23,7 +22,7 @@ namespace AuctionCrowler.Worker.Controllers {
         [HttpPost]
         public ActionResult Sync() {
             //BackgroundJob.Enqueue(() => worldCrowler.SyncWorlds());
-            _charAuctionSearchPageAdapter.List();
+            var charAuctionList = _charAuctionSearchPageAdapter.List();
             return Ok();
         }
     }

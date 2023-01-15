@@ -5,26 +5,33 @@ using System.Text;
 using System.Threading.Tasks;
 using Tibia.Domain.Comunity;
 
-namespace Tibia.Domain
-{
-    public class Auction
-    {
-        internal EAuctionType Type { get; private set; }
-        internal IAuctionable Item { get; private set; }
+namespace Tibia.Domain {
+    public class CharAuction {
+        public string Name { get; private set; }
 
-        internal Auction(IAuctionable item)
-        {
-            Item = item;
-            DefineType(item);
-        }
+        public string DetailPageLink { get; private set; }
 
-        private void DefineType(IAuctionable item)
-        {
-            Type = item switch
-            {
-                Character => EAuctionType.Character,
-                _ => throw new ArgumentException("Invalid item type")
-            };
+        public int Level { get; private set; }
+
+        public EVocation Vocation { get; private set; }
+
+        public EGender Gender { get; private set; }
+
+        public EWorld World { get; private set; }
+
+        public DateTime AuctionEnd { get; private set; }
+
+        public int CurrentBid { get; private set; }
+
+        public CharAuction(string name, string detailPageLink, int level, EVocation vocation, EGender gender, EWorld world, DateTime auctionEnd, int currentBid) {
+            Name = name;
+            DetailPageLink = detailPageLink;
+            Level = level;
+            Vocation = vocation;
+            Gender = gender;
+            World = world;
+            AuctionEnd = auctionEnd;
+            CurrentBid = currentBid;
         }
     }
 

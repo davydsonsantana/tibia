@@ -11,7 +11,7 @@ using Tibia.Domain;
 using Tibia.Domain.Adapters;
 using Tibia.Domain.Comunity;
 
-namespace Tibia.Infrastructure.Adapters.CharAuctionSearchPage {
+namespace Tibia.Infrastructure.Adapters.CharAuctions {
     public class CharAuctionSearchPageAdapter : ICharAuctionSearchPageAdapter {
 
         private readonly ILogger _logger;
@@ -23,16 +23,16 @@ namespace Tibia.Infrastructure.Adapters.CharAuctionSearchPage {
             webDriver = new ChromeDriver();
         }
 
-        public async Task<List<Auction>> List() {
+        public async Task<List<CharAuction>> List() {
             var filter = new CharAuctionFilter();
-            var auctionList = new List<Auction>();
+            var auctionList = new List<CharAuction>();
 
             webDriver.Navigate().GoToUrl(filter.BuildURI());
 
             var trAuctions = webDriver.FindElements(By.XPath(xpathTableTRAuctions)).ToList();
             trAuctions.RemoveAt(0); // Remove table header - pagination   
 
-            for (int i = 0; i < 1/*trAuctions.Count - 1*/; i++) { // ignore footer -1
+            for (int i = 0; i < trAuctions.Count - 1; i++) { // ignore footer -1
                 try {
                     var name = GetName(trAuctions[i]);
                     var charAuctionDetailPageLink = GetCharAuctionDetailPageLink(trAuctions[i]);
@@ -40,11 +40,15 @@ namespace Tibia.Infrastructure.Adapters.CharAuctionSearchPage {
                     var vocation = GetVocation(trAuctions[i]);
                     var gender = GetGender(trAuctions[i]);
                     var world = GetWorld(trAuctions[i]);
+                    var auctionEnd = GetAuctionEnd(trAuctions[i]);
+                    var currentBid = GetCurrentBid(trAuctions[i]);
+
+                    var auction = new CharAuction(name, charAuctionDetailPageLink, level, Enum.Parse<EVocation>(vocation.ToString()), Enum.Parse<EGender>(gender.ToString()), Enum.Parse<EWorld>(world.ToString()), auctionEnd, currentBid);
+                    auctionList.Add(auction);
 
                 } catch (Exception ex) {
                     _logger.LogError(ex.Message);
-                }
-
+                }                
             }
 
             return await Task.FromResult(auctionList);
@@ -68,10 +72,10 @@ namespace Tibia.Infrastructure.Adapters.CharAuctionSearchPage {
             }
         }
 
-        private string GetLevel(IWebElement element) {
+        private int GetLevel(IWebElement element) {
             try {
                 var auctionHeader = element.FindElement(By.XPath(".//div[@class='AuctionHeader']")).Text;
-                return new Regex(@"(?<=Level: )\d*").Match(auctionHeader).Value;
+                return Convert.ToInt32(new Regex(@"(?<=Level: )\d*").Match(auctionHeader).Value);
             } catch {
                 _logger.LogError("Can't locate 'Character Level' on AuctionHeader field at HTML");
                 throw;
@@ -118,6 +122,27 @@ namespace Tibia.Infrastructure.Adapters.CharAuctionSearchPage {
                 var auctionHeader = element.FindElement(By.XPath(".//div[@class='AuctionHeader']")).Text;
                 var worldAsString = new Regex(@"(?<=World: ).*").Match(auctionHeader).Value;
                 return Enum.Parse<EAuctionWorld>(worldAsString);
+            } catch {
+                _logger.LogError("Can't locate 'Character Level' on AuctionHeader field at HTML");
+                throw;
+            }
+        }
+
+        private DateTime GetAuctionEnd(IWebElement element) {
+            try {
+                var epochAuctionEndCET = Convert.ToInt64(element.FindElement(By.XPath(".//div[@class='AuctionTimer']")).GetAttribute("date-timestamp"));
+                var varauctionEndUtc = DateTimeOffset.FromUnixTimeMilliseconds(epochAuctionEndCET);
+                return varauctionEndUtc.AddHours(-1).DateTime;
+            } catch {
+                _logger.LogError("Can't locate 'Character Level' on AuctionHeader field at HTML");
+                throw;
+            }
+        }
+
+        private int GetCurrentBid(IWebElement element) {
+            try {
+                var currentBid = element.FindElement(By.XPath(".//div[@class='ShortAuctionDataBidRow']//b")).Text;                
+                return Convert.ToInt32(currentBid.Replace(",", ""));
             } catch {
                 _logger.LogError("Can't locate 'Character Level' on AuctionHeader field at HTML");
                 throw;

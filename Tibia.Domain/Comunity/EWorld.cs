@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tibia.Infrastructure.Adapters.CharAuctionSearchPage {
-    public enum EAuctionWorld {
-        ALL_WORLDS,
+namespace Tibia.Domain.Comunity {
+    public enum EWorld {        
         Adra,
         Alumbra,
         Antica,

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tibia.Domain.Comunity
 {
-    public class Character : IAuctionable
+    public class Character
     {
         public string Name { get; private set; }
         public World World { get; private set; }
