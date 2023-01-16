@@ -48,11 +48,13 @@ namespace Tibia.Infrastructure.Repository.MongoDB {
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
 
             // Repository
+            services.AddSingleton<ICharAuctionRepository, CharAuctionRepository>();
             services.AddSingleton<IWorldRepository, WorldRepository>();
         }
 
         private static void ConfigureMappers() {
             EntityMapper.Configure();
+            CharAuctionMapper.Configure();
             WorldMapper.Configure();
         }
 

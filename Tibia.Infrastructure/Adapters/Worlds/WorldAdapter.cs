@@ -1,6 +1,5 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using Tibia.Domain.Adapters;
 using Tibia.Domain.Comunity;
 
 namespace Tibia.Infrastructure.Adapters.Worlds {

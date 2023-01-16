@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Tibia.Domain;
-using Tibia.Domain.Adapters;
+using Tibia.Domain.CharAuctions;
 using Tibia.Domain.Comunity;
 
-namespace Tibia.Infrastructure.Adapters.CharAuctions {
+namespace Tibia.Infrastructure.Adapters.CharAuctions
+{
     public class CharAuctionSearchPageAdapter : ICharAuctionSearchPageAdapter {
 
         private readonly ILogger _logger;
@@ -23,16 +23,21 @@ namespace Tibia.Infrastructure.Adapters.CharAuctions {
             webDriver = new ChromeDriver();
         }
 
-        public async Task<List<CharAuction>> List() {
-            var filter = new CharAuctionFilter();
+        public async Task<(CharAuctionSearchPaginationStatus, List<CharAuction>)> ListCurrentPage(CharAuctionFilter filter) {
             var auctionList = new List<CharAuction>();
 
             webDriver.Navigate().GoToUrl(filter.BuildURI());
 
             var trAuctions = webDriver.FindElements(By.XPath(xpathTableTRAuctions)).ToList();
-            trAuctions.RemoveAt(0); // Remove table header - pagination   
 
-            for (int i = 0; i < trAuctions.Count - 1; i++) { // ignore footer -1
+            var totalResult = GetTotalResult(trAuctions[0]);
+            
+            trAuctions.RemoveAt(0); // Remove table header - pagination   
+            trAuctions.RemoveAt(trAuctions.Count - 1); // Remove table footer - pagination   
+
+            var paginationStatus = new CharAuctionSearchPaginationStatus(filter.CurrentPage, totalResult, trAuctions.Count);
+
+            for (int i = 0; i < trAuctions.Count; i++) {
                 try {
                     var name = GetName(trAuctions[i]);
                     var charAuctionDetailPageLink = GetCharAuctionDetailPageLink(trAuctions[i]);
@@ -48,10 +53,16 @@ namespace Tibia.Infrastructure.Adapters.CharAuctions {
 
                 } catch (Exception ex) {
                     _logger.LogError(ex.Message);
-                }                
+                }
             }
 
-            return await Task.FromResult(auctionList);
+            return (paginationStatus, await Task.FromResult(auctionList));
+        }
+
+        private int GetTotalResult(IWebElement element) {
+            var totalString = element.FindElement(By.XPath(".//div[contains(@style,'float: right')]/b")).Text;
+            var totalStripped = Regex.Replace(totalString, "[^0-9]", "");
+            return Convert.ToInt32(totalStripped);            
         }
 
         private string GetName(IWebElement element) {
@@ -141,7 +152,7 @@ namespace Tibia.Infrastructure.Adapters.CharAuctions {
 
         private int GetCurrentBid(IWebElement element) {
             try {
-                var currentBid = element.FindElement(By.XPath(".//div[@class='ShortAuctionDataBidRow']//b")).Text;                
+                var currentBid = element.FindElement(By.XPath(".//div[@class='ShortAuctionDataBidRow']//b")).Text;
                 return Convert.ToInt32(currentBid.Replace(",", ""));
             } catch {
                 _logger.LogError("Can't locate 'Character Level' on AuctionHeader field at HTML");

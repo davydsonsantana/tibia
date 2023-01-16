@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tibia.Domain.Adapters;
 using Tibia.Domain.Comunity;
+using Tibia.Infrastructure.Adapters.Worlds;
 using Tibia.Infrastructure.Repository.MongoDB;
 using Tibia.Infrastructure.Worker.Interface;
 

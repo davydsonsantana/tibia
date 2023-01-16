@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Tibia.Domain.Adapters;
 using Tibia.Infrastructure.Adapters;
 using Tibia.Infrastructure.Repository.MongoDB;
 using Tibia.Infrastructure.Worker;

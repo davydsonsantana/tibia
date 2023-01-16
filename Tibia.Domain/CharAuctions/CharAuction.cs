@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tibia.Domain.Comunity;
+using Tibia.MongoDB;
 
-namespace Tibia.Domain {
-    public class CharAuction {
+namespace Tibia.Domain.CharAuctions
+{
+    public class CharAuction : Entity
+    {
         public string Name { get; private set; }
 
         public string DetailPageLink { get; private set; }
@@ -23,7 +26,8 @@ namespace Tibia.Domain {
 
         public int CurrentBid { get; private set; }
 
-        public CharAuction(string name, string detailPageLink, int level, EVocation vocation, EGender gender, EWorld world, DateTime auctionEnd, int currentBid) {
+        public CharAuction(string name, string detailPageLink, int level, EVocation vocation, EGender gender, EWorld world, DateTime auctionEnd, int currentBid)
+        {
             Name = name;
             DetailPageLink = detailPageLink;
             Level = level;

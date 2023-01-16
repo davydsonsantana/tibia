@@ -15,6 +15,7 @@ namespace Tibia.Infrastructure.Adapters.CharAuctions {
         public EAuctionVocation Vocation { get; private set; }
         public int LevelRangeFrom { get; private set; }
         public int LevelRangeTo { get; private set; }
+        public int CurrentPage { get; private set; }
 
         public CharAuctionFilter() {
             World = EAuctionWorld.ALL_WORLDS;
@@ -23,6 +24,7 @@ namespace Tibia.Infrastructure.Adapters.CharAuctions {
             Vocation = EAuctionVocation.ALL_VOCATIONS;
             LevelRangeFrom = 0;
             LevelRangeTo = 0;
+            CurrentPage = 1;
         }
 
         public void SetWorld(EAuctionWorld world) {
@@ -57,7 +59,7 @@ namespace Tibia.Infrastructure.Adapters.CharAuctions {
             sb.Append($"&order_column=101");
             sb.Append($"&order_direction=1");
             sb.Append($"&searchtype=1");
-            sb.Append($"&currentpage=1");
+            sb.Append($"&currentpage={CurrentPage}");
             return sb.ToString();
         }
 

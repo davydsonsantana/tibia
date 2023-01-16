@@ -1,6 +1,6 @@
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
-using Tibia.Domain.Adapters;
+using Tibia.Infrastructure.Adapters.CharAuctions;
 using Tibia.Infrastructure.Repository.MongoDB;
 using Tibia.Infrastructure.Worker.Interface;
 
@@ -10,19 +10,21 @@ namespace AuctionCrowler.Worker.Controllers {
     public class CharAuctionController : ControllerBase {
 
         private readonly ILogger<CharAuctionController> _logger;
-        private readonly ICharAuctionSearchPageAdapter _charAuctionSearchPageAdapter;
-        private readonly IUnitOfWork _uow;
-
-        public CharAuctionController(ILogger<CharAuctionController> logger, ICharAuctionSearchPageAdapter charAuctionSearchPageAdapter, IUnitOfWork uow) {
+        private readonly ICharAuctionCrowler _charAuctionCrowler;
+        
+        public CharAuctionController(ILogger<CharAuctionController> logger, ICharAuctionCrowler charAuctionCrowler) {
             _logger = logger;
-            _charAuctionSearchPageAdapter = charAuctionSearchPageAdapter;
-            _uow = uow;
+            _charAuctionCrowler = charAuctionCrowler;            
         }
 
         [HttpPost]
         public ActionResult Sync() {
-            //BackgroundJob.Enqueue(() => worldCrowler.SyncWorlds());
-            var charAuctionList = _charAuctionSearchPageAdapter.List();
+            var filter = new CharAuctionFilter();
+            filter.SetBattlEye(EAuctionBattlEye.InitiallyProtected);
+            filter.SetPvPType(EAuctionPvpTypes.OpenPvP);
+
+            BackgroundJob.Enqueue(() => _charAuctionCrowler.Start(filter));
+            
             return Ok();
         }
     }
