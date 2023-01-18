@@ -43,6 +43,10 @@ namespace Tibia.Infrastructure.Adapters.CharAuctions {
             Vocation = vocation;
         }
 
+        public void BumpCurrentPage() {
+            CurrentPage += 1;
+        }
+
         public string BuildURI() {
             StringBuilder sb = new StringBuilder();
             sb.Append(AuctionSearchPageURI);
@@ -69,7 +73,6 @@ namespace Tibia.Infrastructure.Adapters.CharAuctions {
             } else {
                 return $"&filter_world={ World.ToString() }";
             }
-        }
-
+        }                
     }
 }

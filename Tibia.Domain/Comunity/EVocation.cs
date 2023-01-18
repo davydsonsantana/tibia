@@ -1,8 +1,9 @@
 ﻿namespace Tibia.Domain.Comunity {
     public enum EVocation {
-        Druid = 1,
-        Knight = 2,
-        Paladin = 3,
-        Sorcerer = 4
+        None = 1,
+        Druid = 2,
+        Knight = 3,
+        Paladin = 4,
+        Sorcerer = 5
     }
 }

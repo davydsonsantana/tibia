@@ -1,8 +1,8 @@
+using AuctionCrowler.Worker.Job.Interface;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 using Tibia.Infrastructure.Adapters.CharAuctions;
-using Tibia.Infrastructure.Repository.MongoDB;
-using Tibia.Infrastructure.Worker.Interface;
+
 
 namespace AuctionCrowler.Worker.Controllers {
     [ApiController]

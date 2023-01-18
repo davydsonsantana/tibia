@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Tibia.Infrastructure.Adapters.CharAuctions;
 
-namespace Tibia.Infrastructure.Worker.Interface {
+namespace AuctionCrowler.Worker.Job.Interface {
     public interface ICharAuctionCrowler {
-        void Start(CharAuctionFilter filter);
+        Task Start(CharAuctionFilter filter);
     }
 }

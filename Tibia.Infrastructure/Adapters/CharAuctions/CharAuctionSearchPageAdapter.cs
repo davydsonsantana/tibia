@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,20 +11,19 @@ using System.Threading.Tasks;
 using Tibia.Domain.CharAuctions;
 using Tibia.Domain.Comunity;
 
-namespace Tibia.Infrastructure.Adapters.CharAuctions
-{
+namespace Tibia.Infrastructure.Adapters.CharAuctions {
     public class CharAuctionSearchPageAdapter : ICharAuctionSearchPageAdapter {
 
         private readonly ILogger _logger;
         private ChromeDriver webDriver;
         private string xpathTableTRAuctions = "//*[@id=\"currentcharactertrades\"]/div[5]/div/div/div[3]/table/tbody/tr/td/div[2]/table/tbody/tr";
 
-        public CharAuctionSearchPageAdapter(ILogger<CharAuctionSearchPageAdapter> logger) {
+        public CharAuctionSearchPageAdapter(ILogger<CharAuctionSearchPageAdapter> logger, ChromeDriver chromeDriver) {
             _logger = logger;
-            webDriver = new ChromeDriver();
+            webDriver = chromeDriver;
         }
 
-        public async Task<(CharAuctionSearchPaginationStatus, List<CharAuction>)> ListCurrentPage(CharAuctionFilter filter) {
+        public (CharAuctionSearchPaginationStatus, List<CharAuction>) ListCurrentPage(CharAuctionFilter filter) {
             var auctionList = new List<CharAuction>();
 
             webDriver.Navigate().GoToUrl(filter.BuildURI());
@@ -31,7 +31,7 @@ namespace Tibia.Infrastructure.Adapters.CharAuctions
             var trAuctions = webDriver.FindElements(By.XPath(xpathTableTRAuctions)).ToList();
 
             var totalResult = GetTotalResult(trAuctions[0]);
-            
+
             trAuctions.RemoveAt(0); // Remove table header - pagination   
             trAuctions.RemoveAt(trAuctions.Count - 1); // Remove table footer - pagination   
 
@@ -45,10 +45,11 @@ namespace Tibia.Infrastructure.Adapters.CharAuctions
                     var vocation = GetVocation(trAuctions[i]);
                     var gender = GetGender(trAuctions[i]);
                     var world = GetWorld(trAuctions[i]);
+                    var auctionStart = GetAuctionStart(trAuctions[i]);
                     var auctionEnd = GetAuctionEnd(trAuctions[i]);
-                    var currentBid = GetCurrentBid(trAuctions[i]);
+                    var currentBid = GetCurrentBid(trAuctions[i]);                    
 
-                    var auction = new CharAuction(name, charAuctionDetailPageLink, level, Enum.Parse<EVocation>(vocation.ToString()), Enum.Parse<EGender>(gender.ToString()), Enum.Parse<EWorld>(world.ToString()), auctionEnd, currentBid);
+                    var auction = new CharAuction(name, charAuctionDetailPageLink, level, Enum.Parse<EVocation>(vocation.ToString()), Enum.Parse<EGender>(gender.ToString()), Enum.Parse<EWorld>(world.ToString()), auctionStart, auctionEnd, currentBid);
                     auctionList.Add(auction);
 
                 } catch (Exception ex) {
@@ -56,13 +57,13 @@ namespace Tibia.Infrastructure.Adapters.CharAuctions
                 }
             }
 
-            return (paginationStatus, await Task.FromResult(auctionList));
+            return (paginationStatus, auctionList);
         }
 
         private int GetTotalResult(IWebElement element) {
             var totalString = element.FindElement(By.XPath(".//div[contains(@style,'float: right')]/b")).Text;
             var totalStripped = Regex.Replace(totalString, "[^0-9]", "");
-            return Convert.ToInt32(totalStripped);            
+            return Convert.ToInt32(totalStripped);
         }
 
         private string GetName(IWebElement element) {
@@ -113,6 +114,8 @@ namespace Tibia.Infrastructure.Adapters.CharAuctions
                 return EAuctionVocation.Paladin;
             } else if (vocation.ToLower().Contains("knight")) {
                 return EAuctionVocation.Knight;
+            } else if (vocation.ToLower().Contains("none")) {
+                return EAuctionVocation.None;
             } else {
                 throw new Exception($"Can't parse vocation {vocation}");
             }
@@ -139,10 +142,22 @@ namespace Tibia.Infrastructure.Adapters.CharAuctions
             }
         }
 
+        private DateTime GetAuctionStart(IWebElement element) {
+            string stringAuctionStart = "";
+            try {
+                stringAuctionStart = element.FindElement(By.XPath(".//div[@class='AuctionBodyBlock ShortAuctionData']/div[3]")).Text.Replace(" CET", "");
+                var parsedAuctionStart = DateTime.ParseExact(stringAuctionStart, "MMM dd yyyy, HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+                return parsedAuctionStart.AddHours(-1);
+            } catch {
+                _logger.LogError($"Problem to parte Auction Start Date: {stringAuctionStart}");
+                throw;
+            }
+        }
+
         private DateTime GetAuctionEnd(IWebElement element) {
             try {
-                var epochAuctionEndCET = Convert.ToInt64(element.FindElement(By.XPath(".//div[@class='AuctionTimer']")).GetAttribute("date-timestamp"));
-                var varauctionEndUtc = DateTimeOffset.FromUnixTimeMilliseconds(epochAuctionEndCET);
+                var epochAuctionEndCET = Convert.ToInt32(element.FindElement(By.XPath(".//div[@class='AuctionTimer']")).GetAttribute("data-timestamp"));
+                var varauctionEndUtc = DateTimeOffset.FromUnixTimeSeconds(epochAuctionEndCET);
                 return varauctionEndUtc.AddHours(-1).DateTime;
             } catch {
                 _logger.LogError("Can't locate 'Character Level' on AuctionHeader field at HTML");

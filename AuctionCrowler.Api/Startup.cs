@@ -1,6 +1,4 @@
-﻿using Tibia.Infrastructure.Worker.Interface;
-using Tibia.Infrastructure.Worker;
-using Tibia.Infrastructure.Repository.MongoDB;
+﻿using Tibia.Infrastructure.Repository.MongoDB;
 using Tibia.Infrastructure.Adapters.Worlds;
 using Tibia.Infrastructure.Adapters.CharAuctions;
 
@@ -20,10 +18,8 @@ namespace AuctionCrowler.Api
 
 
             // Dependency injection
-            services.AddSingleton<ICharAuctionSearchPageAdapter, CharAuctionSearchPageAdapter>();
-            services.AddSingleton<ICharAuctionCrowler, CharAuctionCrowler>();
-            services.AddSingleton<IWorldAdapter, WorldAdapter>();
-            services.AddSingleton<IWorldCrowler, WorldCrowler>();
+            services.AddSingleton<ICharAuctionSearchPageAdapter, CharAuctionSearchPageAdapter>();            
+            services.AddSingleton<IWorldAdapter, WorldAdapter>();            
 
             // Mongo DB
             services.ConfigureMongoDB(Configuration);

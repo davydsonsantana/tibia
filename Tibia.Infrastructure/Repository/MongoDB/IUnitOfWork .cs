@@ -8,6 +8,7 @@ using Tibia.Domain.Repository;
 namespace Tibia.Infrastructure.Repository.MongoDB {
     public interface IUnitOfWork : IDisposable {
 
+        ICharAuctionRepository CharAuctionRepository { get; }
         IWorldRepository WorldRepository { get; }
         Task<bool> Commit();
     }

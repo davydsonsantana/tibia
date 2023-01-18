@@ -1,4 +1,7 @@
-﻿using Hangfire;
+﻿using AuctionCrowler.Worker.Job.Interface;
+using AuctionCrowler.Worker.Job;
+using Hangfire;
+using OpenQA.Selenium.Chrome;
 
 namespace AuctionCrowler.Worker {
     public class Startup : AuctionCrowler.Api.Startup {
@@ -14,6 +17,11 @@ namespace AuctionCrowler.Worker {
             base.ConfigureServices(services);
             services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
             services.AddHangfireServer();
+
+            //Dependency Injection
+            services.AddScoped<ICharAuctionCrowler, CharAuctionCrowler>();
+            services.AddSingleton<IWorldCrowler, WorldCrowler>();
+            services.AddSingleton<ChromeDriver, ChromeDriver>();            
         }
     }
 }

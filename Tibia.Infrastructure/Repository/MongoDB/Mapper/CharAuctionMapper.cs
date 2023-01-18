@@ -20,6 +20,7 @@ namespace Tibia.Infrastructure.Repository.MongoDB.Mapper {
                 map.MapMember(x => x.Vocation).SetIsRequired(true);
                 map.MapMember(x => x.Gender).SetIsRequired(true);
                 map.MapMember(x => x.World).SetIsRequired(true);
+                map.MapMember(x => x.AuctionStart).SetIsRequired(true);
                 map.MapMember(x => x.AuctionEnd).SetIsRequired(true);
                 map.MapMember(x => x.CurrentBid).SetIsRequired(true);
                 

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AuctionCrowler.Worker.Job.Interface;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,8 @@ using System.Threading.Tasks;
 using Tibia.Domain.Comunity;
 using Tibia.Infrastructure.Adapters.Worlds;
 using Tibia.Infrastructure.Repository.MongoDB;
-using Tibia.Infrastructure.Worker.Interface;
 
-namespace Tibia.Infrastructure.Worker {
+namespace AuctionCrowler.Worker.Job {
     public class WorldCrowler : IWorldCrowler {
 
         private readonly IWorldAdapter _worldAdapter;

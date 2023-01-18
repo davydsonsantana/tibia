@@ -22,11 +22,13 @@ namespace Tibia.Domain.CharAuctions
 
         public EWorld World { get; private set; }
 
+        public DateTime AuctionStart { get; private set; }
+
         public DateTime AuctionEnd { get; private set; }
 
         public int CurrentBid { get; private set; }
 
-        public CharAuction(string name, string detailPageLink, int level, EVocation vocation, EGender gender, EWorld world, DateTime auctionEnd, int currentBid)
+        public CharAuction(string name, string detailPageLink, int level, EVocation vocation, EGender gender, EWorld world, DateTime auctionStart, DateTime auctionEnd, int currentBid)
         {
             Name = name;
             DetailPageLink = detailPageLink;
@@ -34,6 +36,7 @@ namespace Tibia.Domain.CharAuctions
             Vocation = vocation;
             Gender = gender;
             World = world;
+            AuctionStart = auctionStart;
             AuctionEnd = auctionEnd;
             CurrentBid = currentBid;
         }

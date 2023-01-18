@@ -10,5 +10,7 @@ using Tibia.MongoDB;
 namespace Tibia.Domain.Repository {
     public interface ICharAuctionRepository : IMongoRepository<CharAuction> {
 
+        Task<IList<CharAuction>> GetByName(string name);
+
     }
 }

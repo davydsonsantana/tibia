@@ -23,6 +23,8 @@ namespace Tibia.Infrastructure.Adapters.CharAuctions {
         public bool HasNextPage() =>
             TotalResult > CurrentPage * PageResultSize;
 
+        public int GetNextPage() =>
+            CurrentPage + 1;
 
     }
 }
