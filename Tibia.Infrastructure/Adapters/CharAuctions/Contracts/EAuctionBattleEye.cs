@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tibia.Infrastructure.Adapters.CharAuctions {
-    public enum EAuctionBattlEye {
+namespace Tibia.Infrastructure.Adapters.CharAuctions.Contracts
+{
+    public enum EAuctionBattlEye
+    {
         ALL_BATTLEYE = 0,
         InitiallyProtected = 1,
         Protected = 2,

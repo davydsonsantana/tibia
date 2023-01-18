@@ -20,5 +20,10 @@ namespace Tibia.Infrastructure.Repository {
             var data = await DbSet.FindAsync(Builders<CharAuction>.Filter.Eq(x => x.Name, name));
             return data.ToList();
         }
+
+        public virtual async Task<IList<CharAuction>> GetByNames(List<string> names) {
+            var data = await DbSet.FindAsync(Builders<CharAuction>.Filter.In(x => x.Name, names));
+            return data.ToList();
+        }
     }
 }

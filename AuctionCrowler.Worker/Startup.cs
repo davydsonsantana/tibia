@@ -21,7 +21,7 @@ namespace AuctionCrowler.Worker {
             //Dependency Injection
             services.AddScoped<ICharAuctionCrowler, CharAuctionCrowler>();
             services.AddSingleton<IWorldCrowler, WorldCrowler>();
-            services.AddSingleton<ChromeDriver, ChromeDriver>();            
+            services.AddTransient<ChromeDriver, ChromeDriver>();            
         }
     }
 }

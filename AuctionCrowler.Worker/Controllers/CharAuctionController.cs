@@ -2,9 +2,10 @@ using AuctionCrowler.Worker.Job.Interface;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 using Tibia.Infrastructure.Adapters.CharAuctions;
+using Tibia.Infrastructure.Adapters.CharAuctions.Contracts;
 
-
-namespace AuctionCrowler.Worker.Controllers {
+namespace AuctionCrowler.Worker.Controllers
+{
     [ApiController]
     [Route("[controller]")]
     public class CharAuctionController : ControllerBase {

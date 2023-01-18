@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tibia.Infrastructure.Adapters.CharAuctions {
-    public enum EAuctionWorld {
+namespace Tibia.Infrastructure.Adapters.CharAuctions.Contracts
+{
+    public enum EAuctionWorld
+    {
         ALL_WORLDS,
         Adra,
         Alumbra,

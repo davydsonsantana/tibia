@@ -10,8 +10,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Tibia.Domain.CharAuctions;
 using Tibia.Domain.Comunity;
+using Tibia.Infrastructure.Adapters.CharAuctions.Contracts;
 
-namespace Tibia.Infrastructure.Adapters.CharAuctions {
+namespace Tibia.Infrastructure.Adapters.CharAuctions
+{
     public class CharAuctionSearchPageAdapter : ICharAuctionSearchPageAdapter {
 
         private readonly ILogger _logger;

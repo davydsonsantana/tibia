@@ -1,6 +1,7 @@
 ﻿using Tibia.Infrastructure.Repository.MongoDB;
 using Tibia.Infrastructure.Adapters.Worlds;
 using Tibia.Infrastructure.Adapters.CharAuctions;
+using Tibia.Infrastructure.Adapters.CharAuctions.Contracts;
 
 namespace AuctionCrowler.Api
 {
@@ -15,7 +16,6 @@ namespace AuctionCrowler.Api
             services.AddControllers();            
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-
 
             // Dependency injection
             services.AddSingleton<ICharAuctionSearchPageAdapter, CharAuctionSearchPageAdapter>();            

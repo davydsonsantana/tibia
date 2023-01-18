@@ -11,6 +11,6 @@ namespace Tibia.Domain.Repository {
     public interface ICharAuctionRepository : IMongoRepository<CharAuction> {
 
         Task<IList<CharAuction>> GetByName(string name);
-
+        Task<IList<CharAuction>> GetByNames(List<string> names);
     }
 }

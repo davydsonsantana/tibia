@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tibia.Infrastructure.Adapters.CharAuctions {
-    public enum EAuctionVocation {
+namespace Tibia.Infrastructure.Adapters.CharAuctions.Contracts
+{
+    public enum EAuctionVocation
+    {
         ALL_VOCATIONS = 0,
         None = 1,
         Druid = 2,
