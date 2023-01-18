@@ -18,6 +18,7 @@ namespace AuctionCrowler.Api
             services.AddSwaggerGen();
 
             // Dependency injection
+            services.AddSingleton<ICharAuctionDetailPageAdapter, CharAuctionDetailPageAdapter>();
             services.AddSingleton<ICharAuctionSearchPageAdapter, CharAuctionSearchPageAdapter>();            
             services.AddSingleton<IWorldAdapter, WorldAdapter>();            
 

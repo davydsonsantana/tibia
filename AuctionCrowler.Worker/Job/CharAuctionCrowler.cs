@@ -12,51 +12,58 @@ using Tibia.Infrastructure.Adapters.CharAuctions.Contracts;
 using Tibia.Infrastructure.Repository;
 using Tibia.Infrastructure.Repository.MongoDB;
 
-namespace AuctionCrowler.Worker.Job
-{
+namespace AuctionCrowler.Worker.Job {
     public class CharAuctionCrowler : ICharAuctionCrowler {
 
         private readonly ICharAuctionSearchPageAdapter _charAuctionSearchPageAdapter;
+        private readonly ICharAuctionDetailPageAdapter _charAuctionDetailPageAdapter;
         private readonly IUnitOfWork _uow;
         private readonly ILogger<CharAuctionCrowler> _logger;
 
-        public CharAuctionCrowler(ILogger<CharAuctionCrowler> logger, ICharAuctionSearchPageAdapter charAuctionSearchPageAdapter, IUnitOfWork uow) {
+        public CharAuctionCrowler(ILogger<CharAuctionCrowler> logger, ICharAuctionSearchPageAdapter charAuctionSearchPageAdapter,
+            ICharAuctionDetailPageAdapter charAuctionDetailPageAdapter, IUnitOfWork uow) {
             _charAuctionSearchPageAdapter = charAuctionSearchPageAdapter;
+            _charAuctionDetailPageAdapter = charAuctionDetailPageAdapter;
             _uow = uow;
             _logger = logger;
         }
-
-        public async Task Start(CharAuctionFilter filter) {
-
+        public async Task StartCrowlerSearchPage(CharAuctionFilter filter) {
             var hasMorePages = true;
-            while(hasMorePages) {
+            while (hasMorePages) {
                 hasMorePages = CrowlerPage(filter);
                 filter.BumpCurrentPage();
             }
-
         }
 
-        public bool CrowlerPage(CharAuctionFilter filter) {
+        private bool CrowlerPage(CharAuctionFilter filter) {
             var charAuctionSearchResult = _charAuctionSearchPageAdapter.ListCurrentPage(filter);
             var paginationStatus = charAuctionSearchResult.Item1;
             var auctionList = charAuctionSearchResult.Item2;
-            
+
             var storedAuctionList = _uow.CharAuctionRepository.GetByNames(auctionList.Select(a => a.Name).ToList()).Result;
 
             auctionList.ForEach(auction => {
 
-                if(!storedAuctionList.Any(c => c.Name == auction.Name)) {
+                if (!storedAuctionList.Any(c => c.Name == auction.Name)) {
                     _uow.CharAuctionRepository.InsertOne(auction);
                     _logger.LogInformation($"Auction - New char auction saved. Char: {auction.Name}");
                 } else {
                     _logger.LogWarning($"Auction - Already stored. Char: {auction.Name}");
-                }                
-            });                      
-          
-             _uow.Commit();
+                }
+            });
+
+            _uow.Commit();
 
             return paginationStatus.HasNextPage();
         }
-       
+
+        public async Task StartCrowlerUpdateChar() {
+            var charAuction = _uow.CharAuctionRepository.GetToUpdate().Result.ToList();
+
+            charAuction.ForEach(auction => {
+                _charAuctionDetailPageAdapter.LoadChar(auction);
+            });
+        }
+
     }
 }

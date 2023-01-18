@@ -19,13 +19,23 @@ namespace AuctionCrowler.Worker.Controllers
         }
 
         [HttpPost]
-        public ActionResult Sync() {
+        [Route("CrowlerSearchPage")]
+        public ActionResult CrowlerSearchPage() {
             var filter = new CharAuctionFilter();
             filter.SetBattlEye(EAuctionBattlEye.InitiallyProtected);
             filter.SetPvPType(EAuctionPvpTypes.OpenPvP);
 
-            BackgroundJob.Enqueue(() => _charAuctionCrowler.Start(filter));
+            BackgroundJob.Enqueue(() => _charAuctionCrowler.StartCrowlerSearchPage(filter));
             
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("CrowlerUpdateChar")]
+        public ActionResult CrowlerUpdateChar() {
+
+            BackgroundJob.Enqueue(() => _charAuctionCrowler.StartCrowlerUpdateChar());
+
             return Ok();
         }
     }

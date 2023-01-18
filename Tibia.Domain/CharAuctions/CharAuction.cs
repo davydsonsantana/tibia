@@ -10,6 +10,8 @@ namespace Tibia.Domain.CharAuctions
 {
     public class CharAuction : Entity
     {
+        public bool ItsDetailed { get; private set; }
+
         public string Name { get; private set; }
 
         public string DetailPageLink { get; private set; }
@@ -28,6 +30,8 @@ namespace Tibia.Domain.CharAuctions
 
         public int CurrentBid { get; private set; }
 
+        public int HitPoints { get; private set; }
+
         public CharAuction(string name, string detailPageLink, int level, EVocation vocation, EGender gender, EWorld world, DateTime auctionStart, DateTime auctionEnd, int currentBid)
         {
             Name = name;
@@ -39,6 +43,10 @@ namespace Tibia.Domain.CharAuctions
             AuctionStart = auctionStart;
             AuctionEnd = auctionEnd;
             CurrentBid = currentBid;
+        }
+
+        public void SetHitpoints(int hitPoints) {
+            HitPoints = hitPoints;
         }
     }
 

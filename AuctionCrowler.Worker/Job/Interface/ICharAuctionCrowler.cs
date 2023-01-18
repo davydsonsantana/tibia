@@ -8,6 +8,7 @@ using Tibia.Infrastructure.Adapters.CharAuctions.Contracts;
 namespace AuctionCrowler.Worker.Job.Interface
 {
     public interface ICharAuctionCrowler {
-        Task Start(CharAuctionFilter filter);
+        Task StartCrowlerSearchPage(CharAuctionFilter filter);
+        Task StartCrowlerUpdateChar();
     }
 }

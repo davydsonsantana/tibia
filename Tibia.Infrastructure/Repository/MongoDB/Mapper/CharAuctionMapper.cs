@@ -14,6 +14,7 @@ namespace Tibia.Infrastructure.Repository.MongoDB.Mapper {
     public class CharAuctionMapper {
         public static void Configure() {
             BsonClassMap.RegisterClassMap<CharAuction>(map => {
+                map.MapMember(x => x.ItsDetailed).SetIsRequired(true);
                 map.MapMember(x => x.Name).SetIsRequired(true);
                 map.MapMember(x => x.DetailPageLink).SetIsRequired(true);
                 map.MapMember(x => x.Level).SetIsRequired(true);
