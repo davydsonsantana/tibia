@@ -19,7 +19,7 @@ namespace AuctionCrowler.Worker {
             services.AddHangfireServer();
 
             //Dependency Injection
-            services.AddScoped<ICharAuctionCrowler, CharAuctionCrowler>();
+            services.AddSingleton<ICharAuctionCrowler, CharAuctionCrowler>();
             services.AddSingleton<IWorldCrowler, WorldCrowler>();
             services.AddTransient<ChromeDriver, ChromeDriver>();            
         }

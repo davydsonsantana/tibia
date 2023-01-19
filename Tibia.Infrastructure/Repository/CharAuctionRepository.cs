@@ -26,8 +26,15 @@ namespace Tibia.Infrastructure.Repository {
             return data.ToList();
         }
         public virtual async Task<IList<CharAuction>> GetToUpdate() {
-            var data = await DbSet.FindAsync(Builders<CharAuction>.Filter.Eq(x => x.ItsDetailed, false));
+            var data = await DbSet.FindAsync(Builders<CharAuction>.Filter.Eq(x => x.ItsDetailed, false) 
+                | Builders<CharAuction>.Filter.Exists(x => x.ItsDetailed, false) 
+                | Builders<CharAuction>.Filter.Eq(x => x.Status, EBidStatus.Open)
+                | Builders<CharAuction>.Filter.Exists(x => x.Status, false));
             return data.ToList();
+        }
+
+        public virtual async Task<ReplaceOneResult> Update(CharAuction charAuction) {
+            return await DbSet.ReplaceOneAsync<CharAuction>(c => c.Id == charAuction.Id, charAuction);            
         }
     }
 }

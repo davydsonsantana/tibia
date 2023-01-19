@@ -1,6 +1,7 @@
 ﻿using AuctionCrowler.Worker.Job.Interface;
 using Hangfire;
 using Microsoft.Extensions.Logging;
+using OpenQA.Selenium.DevTools.V106.Target;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,10 +59,18 @@ namespace AuctionCrowler.Worker.Job {
         }
 
         public async Task StartCrowlerUpdateChar() {
-            var charAuction = _uow.CharAuctionRepository.GetToUpdate().Result.ToList();
+            var charAuctionList = _uow.CharAuctionRepository.GetToUpdate().Result.ToList();
 
-            charAuction.ForEach(auction => {
-                _charAuctionDetailPageAdapter.LoadChar(auction);
+            charAuctionList.ForEach(charAuction => {
+                var charUpdated = _charAuctionDetailPageAdapter.LoadChar(charAuction);
+                var dbResponse = _uow.CharAuctionRepository.Update(charUpdated);
+
+                if (dbResponse.IsFaulted) {
+                    _logger.LogError($"Erro to update CharAuction '{charAuction.Name}'. MSG: { dbResponse.Exception.Message}");
+                    throw dbResponse.Exception;
+                }
+
+                Thread.Sleep(new Random().Next(800, 3000));
             });
         }
 
